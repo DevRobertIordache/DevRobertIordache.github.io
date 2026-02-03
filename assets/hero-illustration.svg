@@ -1,1 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-label="Hero illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1020"/>
+      <stop offset="1" stop-color="#0F1730"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#31D2FF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="65%" cy="35%" r="55%">
+      <stop offset="0" stop-color="#31D2FF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#31D2FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
 
+  <rect width="900" height="360" rx="28" fill="url(#bg)"/>
+  <rect width="900" height="360" rx="28" fill="url(#glow)"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.16" stroke="#EAF0FF" stroke-width="1">
+    <path d="M60 70h780M60 130h780M60 190h780M60 250h780"/>
+    <path d="M140 40v280M240 40v280M340 40v280M440 40v280M540 40v280M640 40v280M740 40v280M840 40v280"/>
+  </g>
+
+  <!-- Map route -->
+  <path d="M120 255c85-62 155-35 240-92 82-55 134-56 220-8 72 40 118 12 200-38"
+        fill="none" stroke="url(#acc)" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  <g fill="#EAF0FF" opacity="0.7">
+    <circle cx="120" cy="255" r="6"/>
+    <circle cx="360" cy="163" r="6"/>
+    <circle cx="580" cy="155" r="6"/>
+    <circle cx="780" cy="125" r="6"/>
+  </g>
+
+  <!-- Car silhouette -->
+  <g transform="translate(250 210)">
+    <path d="M60 52c6-18 12-28 26-32 28-8 82-8 110 0 14 4 20 14 26 32l7 3c7 3 11 10 11 18v9c0 6-5 11-11 11h-10a18 18 0 0 1-35 0H92a18 18 0 0 1-35 0H47c-6 0-11-5-11-11v-9c0-8 4-15 11-18l13-6z"
+          fill="#121C36" stroke="#1E2A4D" stroke-width="2"/>
+    <path d="M92 32c18-6 80-6 98 0 6 2 11 9 14 20H78c3-11 8-18 14-20z"
+          fill="#0B1020" opacity="0.9"/>
+    <g>
+      <circle cx="82" cy="93" r="16" fill="#0B1020"/>
+      <circle cx="82" cy="93" r="7" fill="#EAF0FF" opacity="0.55"/>
+      <circle cx="200" cy="93" r="16" fill="#0B1020"/>
+      <circle cx="200" cy="93" r="7" fill="#EAF0FF" opacity="0.55"/>
+    </g>
+    <path d="M62 66h160" stroke="#24335F" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Location pin + wrench -->
+  <g transform="translate(680 64)">
+    <path d="M70 12c-22 0-40 18-40 40 0 33 40 78 40 78s40-45 40-78c0-22-18-40-40-40z" fill="url(#acc)"/>
+    <circle cx="70" cy="52" r="18" fill="#0B1020" opacity="0.95"/>
+    <path d="M60 48.8a12 12 0 0 0 19 9.5l8 8-4 4-8-8A12 12 0 0 0 64.6 81L57 88.6 46.4 78l7.6-7.6a12 12 0 0 0 6-21.6z"
+          fill="#EAF0FF" opacity="0.95"/>
+  </g>
+
+  <!-- Tiny label chips -->
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="600">
+    <g transform="translate(86 52)">
+      <rect width="140" height="30" rx="12" fill="#121C36" stroke="#1E2A4D"/>
+      <text x="14" y="20" fill="#EAF0FF" opacity="0.85">Describe issue</text>
+    </g>
+    <g transform="translate(86 92)">
+      <rect width="128" height="30" rx="12" fill="#121C36" stroke="#1E2A4D"/>
+      <text x="14" y="20" fill="#EAF0FF" opacity="0.85">Add location</text>
+    </g>
+    <g transform="translate(86 132)">
+      <rect width="150" height="30" rx="12" fill="#121C36" stroke="#1E2A4D"/>
+      <text x="14" y="20" fill="#EAF0FF" opacity="0.85">Get matched</text>
+    </g>
+  </g>
+</svg>
