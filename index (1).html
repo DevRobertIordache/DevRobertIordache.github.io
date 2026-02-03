@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0b0f14" />
+  <meta name="description" content="Get a mechanic fast — describe the issue and your location, then get matched." />
+  <title>MechanicMatch — Get a mechanic fast</title>
+
+  <link rel="stylesheet" href="css/styles.min.css" />
+  <!-- Debug CSS: <link rel="stylesheet" href="css/styles.css" /> -->
+
+  <script src="js/app.min.js" defer></script>
+  <!-- Debug JS: <script src="js/app.js" defer></script> -->
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to main content</a>
+
+  <noscript>
+    <section class="noscript" role="alert" aria-label="JavaScript required">
+      <h2>Limited mode</h2>
+      <p>This is a single-page app shell. JavaScript is required for view switching, multi-step form flow, and copy-to-clipboard.</p>
+    </section>
+  </noscript>
+
+  <!-- Inline SVG sprite (offline-safe). No inline CSS/JS used. -->
+  <svg aria-hidden="true" width="0" height="0" focusable="false">
+    <symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0 4.2a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM10.8 10h2.4v8h-2.4v-8z" fill="currentColor"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7l0-7z" fill="currentColor"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 5.2-7 13-7 13S5 14.2 5 9a7 7 0 0 1 7-7zm0 3a4 4 0 0 0-4 4c0 2.6 2 6.2 4 8.8 2-2.6 4-6.2 4-8.8a4 4 0 0 0-4-4z" fill="currentColor"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.7 2.8 9.2 2c.7-.2 1.4.2 1.6.9l.9 3c.2.6 0 1.2-.5 1.5l-1.7 1c1.1 2.4 2.9 4.1 5.3 5.3l1-1.7c.3-.5.9-.7 1.5-.5l3 .9c.7.2 1.1.9.9 1.6l-.8 2.5c-.2.6-.8 1-1.5 1C10.1 20.5 3.5 13.9 3.5 5.8c0-.7.4-1.3 1-1.5z" fill="currentColor"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h10v12H9V9zm-4-6h10v4H7v12H5V3z" fill="currentColor"/></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 3h18v12h-5l-2 3h-4l-2-3H3V3zm2 2v8h4l2 3h2l2-3h4V5H5z" fill="currentColor"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M9.2 16.2 4.8 11.8 3.4 13.2l5.8 5.8L21 7.2 19.6 5.8 9.2 16.2z" fill="currentColor"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3 1.4 1.4z" fill="currentColor"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M13 5 20 12l-7 7-1.4-1.4L16.2 13H4v-2h12.2l-4.6-4.6L13 5z" fill="currentColor"/></symbol>
+  </svg>
+
+  <header class="topbar" role="banner" data-region="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#home" data-route="home" aria-label="MechanicMatch home">
+        <span class="brand__icon" aria-hidden="true"><svg class="icon"><use href="#i-bolt"></use></svg></span>
+        <span class="brand__text">MechanicMatch</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <ul class="nav__list" role="list">
+          <li><a class="nav__link" href="#home" data-route="home">Home</a></li>
+          <li><a class="nav__link" href="#request" data-route="request">Request help</a></li>
+          <li><a class="nav__link" href="#results" data-route="results">Results</a></li>
+          <li><a class="nav__link" href="#inbox" data-route="inbox" aria-label="Admin inbox">Inbox</a></li>
+        </ul>
+      </nav>
+
+      <div class="topbar__actions" role="group" aria-label="Quick actions">
+        <a class="btn btn--primary" href="#request" data-route="request">
+          <span aria-hidden="true"><svg class="icon"><use href="#i-arrow"></use></svg></span>
+          <span>Request help</span>
+        </a>
+        <button class="btn btn--ghost" type="button" data-action="open-dialog" data-dialog="privacy" aria-haspopup="dialog">
+          <span aria-hidden="true"><svg class="icon"><use href="#i-logo"></use></svg></span>
+          <span class="btn__label">Privacy</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app" class="app" role="main" tabindex="-1" data-router="hash">
+    <!-- HOME / LANDING -->
+    <section id="home" class="view" data-view="home" data-route="home" aria-labelledby="homeTitle">
+      <header class="hero" aria-label="Value proposition">
+        <p class="hero__kicker">Ireland • Leinster-first • Weekdays only</p>
+        <h1 id="homeTitle" class="hero__title">Get a mechanic fast</h1>
+        <p class="hero__subtitle">Describe the issue and your location. We return a match you can call immediately — no accounts, no delays.</p>
+        <div class="hero__cta" role="group" aria-label="Primary calls to action">
+          <a class="btn btn--primary" href="#request" data-route="request">Request help</a>
+          <a class="btn btn--secondary" href="#how" data-route="home">How it works</a>
+        </div>
+      </header>
+
+      <section id="how" class="card" aria-labelledby="howTitle">
+        <header class="card__header">
+          <h2 id="howTitle" class="card__title">How it works</h2>
+          <p class="card__subtitle">3 steps. Built for speed and clarity.</p>
+        </header>
+        <ol class="steps" aria-label="Three steps">
+          <li><strong>Request</strong> — location + car details + what’s wrong.</li>
+          <li><strong>Match</strong> — we show a mechanic card with direct call options.</li>
+          <li><strong>Confirm</strong> — you get next steps, and an admin inbox records the request.</li>
+        </ol>
+        <div class="trust" aria-label="Why this is legit">
+          <h3 class="trust__title">Why this is legit</h3>
+          <ul class="trust__list" role="list">
+            <li><strong>Transparent contact:</strong> you see numbers and hours before calling.</li>
+            <li><strong>Privacy-first:</strong> your phone is used only to connect the job.</li>
+            <li><strong>Minimal:</strong> small UI, fast load, built for later scale.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="activityTitle">
+        <header class="card__header">
+          <h2 id="activityTitle" class="card__title">Live activity</h2>
+          <p class="card__subtitle">Demo feed so the product doesn’t feel empty.</p>
+        </header>
+        <div class="feed" role="list" aria-label="Activity feed">
+          <article class="feed__item" role="listitem">
+            <header class="feed__head"><span class="badge">Matched</span> <time datetime="2026-02-03">Today</time></header>
+            <p>Brake vibration • County Meath • mechanic card returned.</p>
+          </article>
+          <article class="feed__item" role="listitem">
+            <header class="feed__head"><span class="badge">Request</span> <time datetime="2026-02-02">Yesterday</time></header>
+            <p>Starting issue • County Dublin • awaiting confirmation.</p>
+          </article>
+          <article class="feed__item" role="listitem">
+            <header class="feed__head"><span class="badge">Call</span> <time datetime="2026-02-01">2 days ago</time></header>
+            <p>Noise diagnosis • County Louth • called within hours.</p>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <!-- REQUEST (MULTI-STEP FORM SHELL) -->
+    <section id="request" class="view" data-view="request" data-route="request" aria-labelledby="requestTitle" hidden>
+      <header class="view__header">
+        <h2 id="requestTitle">Request help</h2>
+        <p class="view__sub">Multi-step intake. JS will handle step switching and validation.</p>
+      </header>
+
+      <form class="form" id="jobIntake" data-form="job-intake" aria-describedby="formHint" novalidate>
+        <p id="formHint" class="hint">Fields marked required must be filled before submitting.</p>
+
+        <div class="form__status" aria-live="polite" aria-atomic="true">
+          <div class="state state--error" data-state="form-error" role="alert" hidden>
+            <h3>Fix the highlighted fields</h3>
+            <ul class="state__list" role="list" data-bind="errorList">
+              <li>Example: Phone number is required.</li>
+            </ul>
+          </div>
+          <div class="state state--loading" data-state="form-loading" aria-label="Submitting" hidden>
+            <p>Submitting request…</p>
+          </div>
+        </div>
+
+        <nav class="stepper" aria-label="Request steps">
+          <ol class="stepper__list" role="list">
+            <li><button type="button" class="stepper__step" data-action="go-step" data-step="1" aria-current="step">1 Location</button></li>
+            <li><button type="button" class="stepper__step" data-action="go-step" data-step="2">2 Vehicle</button></li>
+            <li><button type="button" class="stepper__step" data-action="go-step" data-step="3">3 Issue</button></li>
+            <li><button type="button" class="stepper__step" data-action="go-step" data-step="4">4 Contact</button></li>
+          </ol>
+        </nav>
+
+        <fieldset class="step" data-step="1" aria-labelledby="s1Title">
+          <legend id="s1Title">Step 1 — Location</legend>
+          <div class="grid">
+            <div class="field">
+              <label for="county">County (required)</label>
+              <input id="county" name="county" type="text" required aria-required="true" autocomplete="address-level1" list="counties" aria-describedby="countyHelp" />
+              <p id="countyHelp" class="hint">Example: Meath, Dublin, Louth.</p>
+            </div>
+            <div class="field">
+              <label for="city">Town / City</label>
+              <input id="city" name="city" type="text" autocomplete="address-level2" />
+            </div>
+          </div>
+          <datalist id="counties">
+            <option value="Carlow"></option><option value="Cavan"></option><option value="Clare"></option><option value="Cork"></option>
+            <option value="Donegal"></option><option value="Dublin"></option><option value="Galway"></option><option value="Kerry"></option>
+            <option value="Kildare"></option><option value="Kilkenny"></option><option value="Laois"></option><option value="Leitrim"></option>
+            <option value="Limerick"></option><option value="Longford"></option><option value="Louth"></option><option value="Mayo"></option>
+            <option value="Meath"></option><option value="Monaghan"></option><option value="Offaly"></option><option value="Roscommon"></option>
+            <option value="Sligo"></option><option value="Tipperary"></option><option value="Waterford"></option><option value="Westmeath"></option>
+            <option value="Wexford"></option><option value="Wicklow"></option>
+          </datalist>
+        </fieldset>
+
+        <fieldset class="step" data-step="2" aria-labelledby="s2Title" hidden>
+          <legend id="s2Title">Step 2 — Vehicle</legend>
+          <div class="grid">
+            <div class="field"><label for="make">Make (required)</label><input id="make" name="make" type="text" required aria-required="true" autocomplete="off" /></div>
+            <div class="field"><label for="model">Model (required)</label><input id="model" name="model" type="text" required aria-required="true" autocomplete="off" /></div>
+            <div class="field"><label for="year">Year (required)</label><input id="year" name="year" type="number" required aria-required="true" min="1980" max="2026" inputmode="numeric" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="3" aria-labelledby="s3Title" hidden>
+          <legend id="s3Title">Step 3 — Issue</legend>
+          <div class="grid">
+            <div class="field">
+              <label for="category">Category (required)</label>
+              <select id="category" name="category" required aria-required="true">
+                <option value="">Select…</option>
+                <option value="engine">Engine</option>
+                <option value="brakes">Brakes</option>
+                <option value="electrical">Electrical</option>
+                <option value="starting">Starting / Battery</option>
+                <option value="suspension">Suspension</option>
+                <option value="tyres">Tyres</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="urgency">Urgency</label>
+              <select id="urgency" name="urgency" aria-describedby="urgencyHelp">
+                <option value="today">Today</option>
+                <option value="soon" selected>Within 48 hours</option>
+                <option value="week">This week</option>
+                <option value="flexible">Flexible</option>
+              </select>
+              <p id="urgencyHelp" class="hint">Use “Today” only if the car is undriveable.</p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="description">Describe the issue (required)</label>
+            <textarea id="description" name="description" rows="5" required aria-required="true" aria-describedby="descHelp" placeholder="Symptoms, when it happens, warning lights, anything you already tried."></textarea>
+            <p id="descHelp" class="hint">Clear detail = faster diagnosis.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="4" aria-labelledby="s4Title" hidden>
+          <legend id="s4Title">Step 4 — Contact</legend>
+          <div class="grid">
+            <div class="field">
+              <label for="phone">Phone number (required)</label>
+              <input id="phone" name="phone" type="tel" required aria-required="true" inputmode="tel" autocomplete="tel" aria-describedby="privacyLine" />
+              <p id="privacyLine" class="privacy">Privacy: used only to confirm the job and connect you to a mechanic. Not sold.</p>
+            </div>
+            <div class="field">
+              <fieldset class="choice" aria-label="Contact preference">
+                <legend>Contact preference</legend>
+                <label><input type="radio" name="contactPref" value="call" checked /> Call</label>
+                <label><input type="radio" name="contactPref" value="text" /> Text</label>
+                <label><input type="radio" name="contactPref" value="whatsapp" /> WhatsApp</label>
+              </fieldset>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" name="consent" required aria-required="true" /> I confirm the details are accurate.</label>
+        </fieldset>
+
+        <div class="form__actions" role="group" aria-label="Form navigation">
+          <button class="btn" type="button" data-action="prev-step">Back</button>
+          <button class="btn btn--secondary" type="button" data-action="next-step">Next</button>
+          <button class="btn btn--primary" type="submit" data-action="submit-request">Submit request</button>
+        </div>
+
+        <section class="state state--empty" data-state="form-empty" hidden>
+          <h3>Nothing to submit yet</h3>
+          <p>Complete the required fields to continue.</p>
+        </section>
+      </form>
+    </section>
+
+    <!-- RESULTS / MATCH -->
+    <section id="results" class="view" data-view="results" data-route="results" aria-labelledby="resultsTitle" hidden>
+      <header class="view__header">
+        <h2 id="resultsTitle">Your match</h2>
+        <p class="view__sub">This UI is wired for JS to insert real matches later.</p>
+      </header>
+
+      <section class="state state--loading" data-state="results-loading" aria-label="Matching" hidden>
+        <p>Finding the best mechanic…</p>
+      </section>
+      <section class="state state--empty" data-state="results-empty" aria-label="No match" hidden>
+        <h3>No match yet</h3>
+        <p>Submit a request to see a match here.</p>
+        <a class="btn btn--primary" href="#request" data-route="request">Request help</a>
+      </section>
+      <section class="state state--error" data-state="results-error" role="alert" hidden>
+        <h3>Match failed</h3>
+        <p>Try again or adjust your details.</p>
+        <button class="btn" type="button" data-action="retry-match">Retry</button>
+      </section>
+
+      <article class="card card--match" data-component="mechanic-card" data-mechanic-id="kells-001" aria-label="Matched mechanic card">
+        <header class="card__header">
+          <h3 class="card__title">Kells Mechanic</h3>
+          <p class="card__subtitle"><span aria-hidden="true"><svg class="icon"><use href="#i-map"></use></svg></span> Area: Kells • <strong>Weekdays only</strong> 10:30–4:30</p>
+        </header>
+
+        <dl class="metrics" aria-label="Mechanic metrics">
+          <div><dt>Rating</dt><dd><span aria-hidden="true">★</span> 4.8</dd></div>
+          <div><dt>Typical response</dt><dd>Same day</dd></div>
+          <div><dt>Completed jobs</dt><dd>320+</dd></div>
+          <div><dt>Call window</dt><dd>10:30–4:30</dd></div>
+        </dl>
+
+        <section class="contact" aria-label="Contact options">
+          <h4 class="contact__title">Contact</h4>
+          <ul class="contact__list" role="list">
+            <li>
+              <span class="contact__label">Phone 1</span>
+              <a class="contact__value" href="tel:+353892193220">089 219 3220</a>
+              <button class="btn btn--ghost" type="button" data-action="copy" data-copy="0892193220" aria-label="Copy phone 1">
+                <span aria-hidden="true"><svg class="icon"><use href="#i-copy"></use></svg></span>
+                <span>Copy</span>
+              </button>
+            </li>
+            <li>
+              <span class="contact__label">Phone 2</span>
+              <a class="contact__value" href="tel:+353894993928">089 499 3928</a>
+              <button class="btn btn--ghost" type="button" data-action="copy" data-copy="0894993928" aria-label="Copy phone 2">
+                <span aria-hidden="true"><svg class="icon"><use href="#i-copy"></use></svg></span>
+                <span>Copy</span>
+              </button>
+            </li>
+          </ul>
+          <div class="contact__actions" role="group" aria-label="Primary actions">
+            <a class="btn btn--primary" href="tel:+353892193220"><span aria-hidden="true"><svg class="icon"><use href="#i-phone"></use></svg></span> Call now</a>
+            <button class="btn" type="button" data-action="request-another">Request another match</button>
+          </div>
+        </section>
+      </article>
+
+      <section class="card" aria-label="Next step">
+        <h3>Next</h3>
+        <p>After you call, you’ll see confirmation steps and your request record in Inbox.</p>
+        <div role="group" aria-label="Next step actions">
+          <a class="btn btn--secondary" href="#confirm" data-route="confirm">View confirmation</a>
+          <a class="btn" href="#inbox" data-route="inbox">Open Inbox</a>
+        </div>
+      </section>
+    </section>
+
+    <!-- CONFIRMATION -->
+    <section id="confirm" class="view" data-view="confirm" data-route="confirm" aria-labelledby="confirmTitle" hidden>
+      <header class="view__header">
+        <h2 id="confirmTitle">Request received</h2>
+        <p class="view__sub">Confirmation shell — JS will populate timestamps and request ID.</p>
+      </header>
+
+      <article class="card" aria-label="Confirmation card">
+        <header class="card__header">
+          <h3 class="card__title"><span aria-hidden="true"><svg class="icon"><use href="#i-check"></use></svg></span> You’re in</h3>
+          <p class="card__subtitle">Next steps are simple and fast.</p>
+        </header>
+        <ol class="steps" aria-label="Next steps">
+          <li>Call within the listed hours (weekdays 10:30–4:30).</li>
+          <li>Explain the same issue you submitted (keep it short and exact).</li>
+          <li>If needed, submit another request for a second opinion.</li>
+        </ol>
+        <div role="group" aria-label="Confirmation actions">
+          <a class="btn btn--primary" href="#results" data-route="results">Back to match</a>
+          <a class="btn" href="#inbox" data-route="inbox">View Inbox record</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- ADMIN / INBOX (PRIVATE) -->
+    <section id="inbox" class="view" data-view="inbox" data-route="inbox" aria-labelledby="inboxTitle" hidden>
+      <header class="view__header">
+        <h2 id="inboxTitle"><span aria-hidden="true"><svg class="icon"><use href="#i-inbox"></use></svg></span> Admin Inbox</h2>
+        <p class="view__sub">UI shell for you only. JS will handle open/close and copy actions.</p>
+      </header>
+
+      <div class="split" data-component="inbox">
+        <section class="split__list" aria-label="Request list">
+          <section class="state state--empty" data-state="inbox-empty" hidden>
+            <h3>No requests</h3>
+            <p>Requests will appear here after submission.</p>
+          </section>
+          <section class="state state--error" data-state="inbox-error" role="alert" hidden>
+            <h3>Inbox unavailable</h3>
+            <p>Try again.</p>
+          </section>
+
+          <ol class="list" role="list" aria-label="Mock requests" data-bind="requestList">
+            <li class="list__item" data-request-id="r-001">
+              <button class="list__button" type="button" data-action="open-request" data-request-id="r-001">
+                <span class="badge">New</span>
+                <span class="list__title">Meath • Brake vibration</span>
+                <span class="list__meta">Make/Model: Skoda Octavia • Urgency: 48h</span>
+              </button>
+            </li>
+            <li class="list__item" data-request-id="r-002">
+              <button class="list__button" type="button" data-action="open-request" data-request-id="r-002">
+                <span class="badge badge--muted">Seen</span>
+                <span class="list__title">Dublin • Won’t start</span>
+                <span class="list__meta">Make/Model: Volkswagen Golf • Urgency: Today</span>
+              </button>
+            </li>
+          </ol>
+        </section>
+
+        <section class="split__detail" aria-label="Request detail" data-bind="requestDetail">
+          <article class="card" data-component="request-detail" aria-label="Selected request">
+            <header class="card__header">
+              <h3 class="card__title">Request detail</h3>
+              <p class="card__subtitle">Open a request on the left to view.</p>
+            </header>
+
+            <dl class="detail" aria-label="Request fields">
+              <div><dt>Location</dt><dd data-bind="dLocation">Kells, Meath</dd></div>
+              <div><dt>Vehicle</dt><dd data-bind="dVehicle">Skoda Octavia 2015</dd></div>
+              <div><dt>Category</dt><dd data-bind="dCategory">Brakes</dd></div>
+              <div><dt>Urgency</dt><dd data-bind="dUrgency">Within 48 hours</dd></div>
+              <div><dt>Contact</dt><dd data-bind="dContact">Call</dd></div>
+            </dl>
+
+            <div class="field">
+              <label for="fullRequest">Full request text</label>
+              <textarea id="fullRequest" rows="7" readonly aria-describedby="copyHelp" data-bind="fullText">Location: Meath (Kells)\nVehicle: Skoda Octavia 2015\nCategory: Brakes\nIssue: Brake vibration under load, worse at low speed.\nUrgency: Within 48 hours\nContact preference: Call\nPhone: (captured in form)\n</textarea>
+              <p id="copyHelp" class="hint">Use Copy to clipboard (JS) or select the text and copy manually.</p>
+            </div>
+
+            <div class="card__actions" role="group" aria-label="Admin actions">
+              <button class="btn btn--primary" type="button" data-action="copy-request" aria-label="Copy full request text">
+                <span aria-hidden="true"><svg class="icon"><use href="#i-copy"></use></svg></span>
+                <span>Copy full request</span>
+              </button>
+              <button class="btn" type="button" data-action="mark-done">Mark done</button>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo" aria-label="Footer">
+    <div class="footer__inner" id="contact">
+      <p class="footer__line"><strong>Privacy note:</strong> phone is used only to connect the job. Not sold.</p>
+      <p class="footer__line"><strong>Contact:</strong> use the “Request help” form in this app.</p>
+      <p class="footer__line"><strong>Hours:</strong> weekdays only 10:30–4:30</p>
+    </div>
+  </footer>
+
+  <!-- DIALOGS (accessible scaffolding; JS will control open/close + focus) -->
+  <div class="backdrop" data-component="backdrop" hidden></div>
+
+  <dialog class="dialog" id="dlg-privacy" data-dialog="privacy" aria-labelledby="privacyTitle">
+    <form method="dialog" class="dialog__panel" role="dialog" aria-modal="true">
+      <header class="dialog__header">
+        <h2 id="privacyTitle">Privacy</h2>
+        <button class="btn btn--ghost" value="cancel" aria-label="Close">
+          <span aria-hidden="true"><svg class="icon"><use href="#i-x"></use></svg></span>
+        </button>
+      </header>
+      <div class="dialog__body">
+        <p>Your phone number is used only to confirm the job and connect you to a mechanic. It is not sold.</p>
+        <p>Requests are stored in the Admin Inbox view for operational handling.</p>
+      </div>
+      <div class="dialog__actions" role="group" aria-label="Dialog actions">
+        <button class="btn btn--primary" value="ok">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- TOAST (live region for status updates) -->
+  <div class="toast" role="status" aria-live="polite" aria-atomic="true" hidden data-component="toast">
+    <p class="toast__text" data-bind="toastText">Copied</p>
+    <button class="btn btn--ghost" type="button" data-action="dismiss-toast" aria-label="Dismiss toast">
+      <span aria-hidden="true"><svg class="icon"><use href="#i-x"></use></svg></span>
+    </button>
+  </div>
+</body>
+</html>
